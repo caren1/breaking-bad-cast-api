@@ -8,23 +8,31 @@ import axios from 'axios'
 const App = () => {
 
   const [ items, setItems ] = useState([])
-  const [ isLoading, setIsLoading ] = useState(true)
-  const [ query, setQuery ] = useState('')
+  const [ isProcessing, setIsProcessing ] = useState(true)
+  // const [ query, setQuery ] = useState('')
+  const [ showAll, setShowAll ] = useState('')
+
+  const handleFilterChange = (event) => {
+    setShowAll(event.target.value);
+  }
 
   useEffect(() => {
     const fetchItems = async () => {
-      const result = await axios(`https://www.breakingbadapi.com/api/characters?name=${query}`)
+      const result = await axios(`https://www.breakingbadapi.com/api/characters`)
       console.log(result.data);
       setItems(result.data)
-      setIsLoading(false)
+      setIsProcessing(false)
     }
     fetchItems()
-  }, [query])
+  }, [])
+
+  let itemsToShow = showAll ? items.filter(item => item.name.toLowerCase().includes(showAll.toLowerCase())) : items
+
 
   return <div>
     <Header />
-    <Search getQuery={(q) => setQuery(q)}/>
-    <CharacterGrid isLoading={isLoading} items={items}/>
+    <Search onChange={handleFilterChange} value={showAll}/>
+    <CharacterGrid isProcessing={isProcessing} items={itemsToShow}/>
   </div>
 }
 

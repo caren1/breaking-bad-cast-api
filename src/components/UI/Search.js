@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Search = ({ getQuery }) => {
+const Search = ({ onChange, value}) => {
 
-    const [text, setText] = useState('')
+    // const [text, setText] = useState('')
 
-    const onChange = (q) => {
-        setText(q)
-        getQuery(q)
-    }
+    // const onChange = (q) => {
+    //     setText(q)
+    //     getQuery(q)
+    // }
 
     return (
         <section className='search'>
-            <input type='text' className='form-control' placeholder='Search characters..' value={text} autoFocus onChange={(e) => onChange(e.target.value)}/>
+            <input type='text' className='form-control' placeholder='Search characters..' value={value} autoFocus onChange={onChange}/>
         </section>
     )
 }
